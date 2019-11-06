@@ -11,7 +11,7 @@ env:
   RUBY_GC_HEAP_INIT_SLOTS: 400000
   RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR: 1.5
 
-  DISCOURSE_DB_SOCKET: /var/run/postgresql
+  DISCOURSE_DB_SOCKET: /var/run/mysqld/mysqld.sock
   DISCOURSE_DB_HOST:
   DISCOURSE_DB_PORT:
 
@@ -86,12 +86,6 @@ run:
       cd: $home
       hook: code
       cmd:
-        - git reset --hard
-        - git clean -f
-        - git remote set-branches --add origin master
-        - git pull
-        - git fetch origin $version
-        - git checkout $version
         - mkdir -p tmp/pids
         - mkdir -p tmp/sockets
         - touch tmp/.gitkeep

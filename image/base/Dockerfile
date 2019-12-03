@@ -183,7 +183,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server=${MYSQL_VERSI
 RUN useradd discourse -s /bin/bash -m -U &&\
     mkdir -p /var/www &&\
     cd /var/www &&\
-    git clone -b my-2.3.3 git@github.com:pingcap-incubator/discourse.git discourse &&\
+    git clone -b my-2.3.3  https://github.com/pingcap-incubator/discourse.git discourse &&\
     cd discourse &&\
     git remote set-branches --add origin tests-passed &&\
     chown -R discourse:discourse /var/www/discourse &&\

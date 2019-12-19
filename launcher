@@ -88,7 +88,7 @@ git_rec_version='1.8.0'
 config_file=containers/"$config".yml
 cidbootstrap=cids/"$config"_bootstrap.cid
 local_discourse=local_discourse
-image="hooopo/discourse-base"
+image="wangdi4zm/discourse-base"
 docker_path=`which docker.io 2> /dev/null || which docker`
 git_path=`which git`
 
@@ -768,7 +768,7 @@ case "$command" in
       ;;
 
   rebuild)
-      if [ "$(git symbolic-ref --short HEAD)" == "master" ]; then
+      if [ "$(git symbolic-ref --short HEAD)" == "discourse-tidb" ]; then
         echo "Ensuring launcher is up to date"
 
         git remote update

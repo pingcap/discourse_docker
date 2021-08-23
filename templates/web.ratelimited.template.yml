@@ -7,6 +7,14 @@ params:
 
 run:
   - replace:
+      filename: /etc/nginx/conf.d/discourse.conf
+      from: "types {"
+      to: |
+        set_real_ip_from 172.17.0.0/24;
+        real_ip_header X-Forwarded-For;
+        real_ip_recursive on;
+        types {
+  - replace:
      filename: "/etc/nginx/conf.d/discourse.conf"
      from: /server.+{/
      to: |

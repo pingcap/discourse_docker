@@ -1,5 +1,6 @@
 env:
   LETSENCRYPT_DIR: "/shared/letsencrypt"
+  DISCOURSE_FORCE_HTTPS: true
 
 hooks:
   after_ssl:
@@ -10,11 +11,12 @@ hooks:
 
     - exec:
        cmd:
-         - cd /root && git clone --branch 2.8.2 --depth 1 https://github.com/Neilpang/acme.sh.git && cd /root/acme.sh
+         - cd /root && git clone --branch 2.9.0 --depth 1 https://github.com/Neilpang/acme.sh.git && cd /root/acme.sh
          - touch /var/spool/cron/crontabs/root
          - install -d -m 0755 -g root -o root $LETSENCRYPT_DIR
          - cd /root/acme.sh && LE_WORKING_DIR="${LETSENCRYPT_DIR}" ./acme.sh --install --log "${LETSENCRYPT_DIR}/acme.sh.log"
          - cd /root/acme.sh && LE_WORKING_DIR="${LETSENCRYPT_DIR}" ./acme.sh --upgrade --auto-upgrade
+         - cd /root/acme.sh && LE_WORKING_DIR="${LETSENCRYPT_DIR}" ./acme.sh --set-default-ca  --server  letsencrypt
 
     - file:
        path: "/etc/nginx/letsencrypt.conf"
@@ -61,7 +63,7 @@ hooks:
         }
 
         cert_exists() {
-          [[ "$(cd $$ENV_LETSENCRYPT_DIR/$$ENV_DISCOURSE_HOSTNAME$1 && openssl verify -CAfile ca.cer fullchain.cer | grep "OK")" ]]
+          [[ "$(cd $$ENV_LETSENCRYPT_DIR/$$ENV_DISCOURSE_HOSTNAME$1 && openssl verify -CAfile <(openssl x509 -in ca.cer) fullchain.cer | grep "OK")" ]]
         }
 
         ########################################################
